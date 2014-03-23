@@ -14,7 +14,7 @@ class AnalogData:
  
     def addToBuf(self, buf, val):
         while len(buf) >= self.maxLen:
-            buf.pop()
+            buf.popleft()
         buf.append(val)
         while len(self.x) < len(buf):
             self.x.append(len(self.x))
@@ -39,7 +39,9 @@ class AnalogPlot:
     def update(self, analogData):
         if 0 != len(analogData.ax) and 0 != len(analogData.ay) and len(analogData.ax) == len(analogData.ay):
             plt.xlim([analogData.x[0], analogData.x[-1]])
-            plt.ylim([40, max(60, max(analogData.ax) + 5, max(analogData.ay) + 5)])
+            mx = max(max(analogData.ax) + 5, max(analogData.ay) + 5)
+            mn = min(min(analogData.ax) - 5, max(analogData.ay) - 5)
+            plt.ylim([mn, mx])
             self.axline.set_xdata(analogData.x)
             self.ayline.set_xdata(analogData.x)
             self.axline.set_ydata(analogData.ax)
