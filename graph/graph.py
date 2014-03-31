@@ -29,11 +29,12 @@ class AnalogPlot:
     def __init__(self, analogData):
         plt.figure( figsize=(10,10) )
         self.axline, = plt.plot(analogData.x, "b+-")
-        self.ayline, = plt.plot(analogData.x, "r+-")
+        self.ayline, = plt.plot(analogData.x, "r*-")
         plt.ylabel('temperature')
         plt.xlabel('ticks')
         plt.title('sensors temperature')
         plt.legend( (self.axline, self.ayline), ("internal temperature", "external temperature") )
+        # plt.legend( (self.axline, self.ayline), ("external temperature", "internal temperature") )
         plt.ion()
  
     def update(self, analogData):
@@ -53,6 +54,12 @@ analogPlot = AnalogPlot(analogData)
 
 ser = serial.Serial('/dev/ttyACM0', 9600)
 
+def isInt(s):
+    for ch in s:
+        if ch < '0' or ch > '9':
+            return False
+    return True
+
 while True:
     read1 = False
     read2 = False
@@ -63,7 +70,7 @@ while True:
         if 0 != len(line):
             print line
             parts = line.split()
-            if 3 == len(parts):
+            if 3 == len(parts) and isInt(parts[0]):
                 index = int(parts[0])
                 temp = float(parts[2])
                 if 1 == index:
