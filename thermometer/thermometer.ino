@@ -13,7 +13,7 @@ DallasTemperature sensors(&oneWire);
 void discoverOneWireDevices()
 {
   byte addr[8];
-
+  
   Serial.print("Looking for 1-Wire devices...\n\r");
   while (oneWire.search(addr))
   {
@@ -69,22 +69,22 @@ void printTemperature(DeviceAddress deviceAddress)
   }
   else
   {
-    Serial.print("C: ");
+    Serial.print("\t");
     Serial.print(tempC);
-    Serial.print(" F: ");
+    Serial.print("\t");
     Serial.print(DallasTemperature::toFahrenheit(tempC));
   }
 }
 
 void loop()
 {
-  delay(2000);
-  Serial.print("Getting temperatures...\n\r");
+  delay(1000);
   sensors.requestTemperatures();
-
-  Serial.print("Temperature1 is: ");
+ 
+  Serial.print("1");
   printTemperature(thermometer1);
-  Serial.print("\n\rTemperature2 is: ");
+  Serial.print("\n\r2");
   printTemperature(thermometer2);
   Serial.print("\n\r");
-}
+  Serial.print("\n\r");
+} 
